@@ -1,0 +1,821 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     37940,        813]
+NotebookOptionsPosition[     37268,        794]
+NotebookOutlinePosition[     37797,        813]
+CellTagsIndexPosition[     37754,        810]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[TextData[{
+ "\n",
+ ButtonBox["Coding B\[EAcute]zier Curves \[LongDash] Day 1 [Tsoding Daily]",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["https://www.youtube.com/watch?v=2oKzBq43ShE"], None},
+  ButtonNote->"https://www.youtube.com/watch?v=2oKzBq43ShE"]
+}], "Text",
+ CellChangeTimes->{{3.986326493281378*^9, 
+  3.9863265288773212`*^9}},ExpressionUUID->"3e52a476-1570-1246-af2a-\
+4581c15be24d"],
+
+Cell[BoxData[
+ RowBox[{"Bezier", "[", "]"}]], "Input",
+ CellChangeTimes->{{3.9738926423188744`*^9, 3.973892643014061*^9}, {
+  3.9738934326434803`*^9, 3.9738934476010723`*^9}, {3.973895963647276*^9, 
+  3.973895964638422*^9}, {3.974142889264326*^9, 3.9741428899874096`*^9}},
+ CellLabel->
+  "In[1417]:=",ExpressionUUID->"fa51cba5-4280-a747-89e8-73da3deb9a34"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"Bezier", "[", "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "window", ",", "event", ",", "renderer", ",", "gameIsRunning", ",", 
+        "t", ",", "screenFPS", ",", "deltaTimeMs", ",", "deltaTimeSec", ",", 
+        "p", ",", "i"}], "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{
+        RowBox[{
+        "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", 
+         "===", "===", "===", "===", "===", "===", "==="}], "="}], "*)"}], 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"markers", "=", "True"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"MARKER$SIZE", "=", "15"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"p", "=", "0.05"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"bezierStep", "=", ".05"}], ";", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"ColorSDL", "[", 
+         RowBox[{
+          RowBox[{"cl_", "?", "ColorQ"}], ",", 
+          RowBox[{"opacity_", ":", "255"}]}], "]"}], ":=", 
+        RowBox[{"Sequence", "@@", 
+         RowBox[{"(", 
+          RowBox[{"PadRight", "[", 
+           RowBox[{
+            RowBox[{"IntegerPart", "[", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"List", "@@", 
+                RowBox[{"RGBColor", "[", "cl", "]"}]}], ")"}], "255"}], "]"}],
+             ",", "4", ",", "opacity"}], "]"}], ")"}]}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"fillRec", "[", 
+         RowBox[{"renderer_", ",", 
+          RowBox[{"{", 
+           RowBox[{"x_", ",", "y_"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"lx_", ",", "ly_"}], "}"}], ",", "color_"}], "]"}], ":=", 
+        RowBox[{"Block", "[", 
+         RowBox[{
+          RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"SDLSetRenderDrawColor", "[", 
+            RowBox[{"renderer", ",", 
+             RowBox[{"ColorSDL", "[", 
+              RowBox[{"RGBColor", "[", "color", "]"}], "]"}]}], 
+            "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+           RowBox[{"SDLRenderFillRect", "[", 
+            RowBox[{"renderer", ",", 
+             RowBox[{"SDLRect", "[", 
+              RowBox[{
+               RowBox[{"IntegerPart", "[", "x", "]"}], ",", 
+               RowBox[{"IntegerPart", "[", "y", "]"}], ",", "lx", ",", "ly"}],
+               "]"}]}], "]"}], ";"}]}], "\[IndentingNewLine]", 
+         "\[IndentingNewLine]", "]"}]}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"kill", "[", 
+         RowBox[{"window_", ",", "renderer_"}], "]"}], ":=", 
+        RowBox[{"Block", "[", 
+         RowBox[{
+          RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", " ", 
+          RowBox[{
+           RowBox[{"SDLDestroyRenderer", "[", "renderer", "]"}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"SDLDestroyWindow", "[", "window", "]"}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"SDLQuit", "[", "]"}], ";"}]}], "\[IndentingNewLine]", 
+         "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{
+         "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+           "===", "===", "===", "===", "===", "===", "==="}], "="}], "*)"}], 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"SCREEN$FPS", " ", "=", "60"}], ";", "\n", 
+       RowBox[{"DELTA$TIME$SEC", " ", "=", 
+        RowBox[{"(", 
+         RowBox[{"1.0", "/", "SCREEN$FPS"}], ")"}]}], ";", "\n", " ", 
+       RowBox[{"DELTA$TIME$MS", "=", " ", 
+        RowBox[{"Floor", "[", 
+         RowBox[{"DELTA$TIME$SEC", "*", "1000.0"}], "]"}]}], ";", "\n", " ", 
+       RowBox[{"SCREEN$WIDTH", "=", " ", "800"}], ";", "\n", " ", 
+       RowBox[{"SCREEN$HIGHT", " ", "=", "600"}], ";", "\n", 
+       RowBox[{"(*", "Style", "*)"}], "\n", 
+       RowBox[{"RED$COLOR", " ", "=", "\"\<#DA2C38FF\>\""}], ";", "\n", " ", 
+       RowBox[{"GREEN$COLOR", "=", "\"\<#87C38FFF\>\""}], ";", "\n", 
+       RowBox[{"BLUE$COLOR", " ", "=", "\"\<#748CA8FF\>\""}], ";", 
+       "\[IndentingNewLine]", "\n", 
+       RowBox[{"BACKGROUND$COLOR", " ", "=", "\"\<#353535FF\>\""}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"screenFPS", "=", "60."}], ";", "\[IndentingNewLine]", 
+       RowBox[{"deltaTimeSec", "=", 
+        RowBox[{"1", "/", "screenFPS"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"deltaTimeMs", "=", 
+        RowBox[{"IntegerPart", "[", 
+         RowBox[{"Floor", "[", 
+          RowBox[{"deltaTimeSec", "*", "1000"}], "]"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"t", "=", "0"}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"ps$count", "=", "0"}], ";", "\[IndentingNewLine]", " ", 
+       RowBox[{"ps$selected", "=", 
+        RowBox[{"-", "1"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"ps", "=", 
+        RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"SDLInit", "[", "SDLINITVIDEO", "]"}], "!=", "0"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"PrintTemporary", "[", 
+          RowBox[{"\"\<SDL_ could not be initialized\>\"", "<>", 
+           RowBox[{"RawMemoryImport", "[", 
+            RowBox[{
+             RowBox[{"SDLGetError", "[", "]"}], ",", "\"\<String\>\""}], 
+            "]"}]}], "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+         "PrintTemporary", "[", "\"\<SDL_ video sysytem is ready to go\>\"", 
+          "]"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{"title", "=", 
+          RowBox[{
+          "RawMemoryExport", "[", "\"\<SDL_2  Mathematica \>\"", "]"}]}], 
+         ";"}], "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"window", "=", 
+        RowBox[{"SDLCreateWindow", "[", 
+         RowBox[{"\"\<Bezier curve\>\"", ",", "\[IndentingNewLine]", 
+          "SDLWINDOWPOSCENTERED", ",", "\[IndentingNewLine]", 
+          "SDLWINDOWPOSUNDEFINED", ",", "\[IndentingNewLine]", "SCREEN$WIDTH",
+           ",", "SCREEN$HIGHT", ",", "\[IndentingNewLine]", 
+          "SDLWINDOWRESIZABLE"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"renderer", "=", 
+        RowBox[{"SDLCreateRenderer", "[", 
+         RowBox[{"window", ",", 
+          RowBox[{"-", "1"}], ",", "SDLRENDERERACCELERATED"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{"SDLRenderSetLogicalSize", "[", 
+          RowBox[{"renderer", ",", "SCREEN$WIDTH", ",", "SCREEN$HIGHT"}], 
+          "]"}], ";"}], "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"quit", "=", "False"}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"event", "=", 
+        RowBox[{"SDLEvent", "[", "]"}]}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"While", "[", 
+        RowBox[{
+         RowBox[{"Not", "[", "quit", "]"}], ",", "\[IndentingNewLine]", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"While", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"SDLPollEvent", "[", "event", "]"}], "==", "1"}], ",", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"Switch", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"SDLEvent", "[", "event", "]"}], "[", "\"\<type\>\"", 
+               "]"}], ",", "\[IndentingNewLine]", "SDLQUIT", ",", 
+              "\[IndentingNewLine]", 
+              RowBox[{"quit", "=", "True"}], ",", "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", "\[IndentingNewLine]", "SDLKEYDOWN", ",",
+               "\[IndentingNewLine]", 
+              RowBox[{"Switch", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"SDLEvent", "[", "event", "]"}], "[", "\"\<key\>\"",
+                    "]"}], "[", "\"\<keysym\>\"", "]"}], "[", "\"\<sym\>\"", 
+                 "]"}], ",", "\[IndentingNewLine]", "SDLKF1", ",", 
+                "\[IndentingNewLine]", 
+                RowBox[{"markers", "=", 
+                 RowBox[{"Not", "[", "markers", "]"}]}]}], 
+               "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", ",", 
+              "\[IndentingNewLine]", "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", 
+              RowBox[{"(*", 
+               RowBox[{"===", "===", "===", "==="}], "*)"}], 
+              "\[IndentingNewLine]", "\[IndentingNewLine]", 
+              "SDLMOUSEBUTTONDOWN", ",", "\[IndentingNewLine]", 
+              RowBox[{"Switch", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"SDLEvent", "[", "event", "]"}], 
+                  "[", "\"\<button\>\"", "]"}], "[", "\"\<button\>\"", "]"}], 
+                ",", "\[IndentingNewLine]", "SDLBUTTONLEFT", ",", 
+                "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"mousePos", "=", 
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SDLEvent", "[", "event", "]"}], 
+                    "[", "\"\<button\>\"", "]"}], "[", "\"\<x\>\"", "]"}], ",", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SDLEvent", "[", "event", "]"}], 
+                    "[", "\"\<button\>\"", "]"}], "[", "\"\<y\>\"", "]"}]}], 
+                   "}"}]}], ";", "\[IndentingNewLine]", 
+                 RowBox[{"If", "[", 
+                  RowBox[{
+                   RowBox[{"ps$count", "<", "4"}], ",", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"ps$count", "++"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"ps", ",", "mousePos"}], "]"}]}], ",", 
+                   "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"ps$selected", "=", 
+                    RowBox[{"psAt", "[", "mousePos", "]"}]}], ";"}]}], 
+                  "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", 
+               "]"}], ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+              "SDLMOUSEBUTTONUP", ",", "\[IndentingNewLine]", 
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"SDLEvent", "[", "event", "]"}], 
+                   "[", "\"\<button\>\"", "]"}], "[", "\"\<button\>\"", "]"}],
+                  "==", "SDLBUTTONLEFT"}], ",", "\[IndentingNewLine]", 
+                RowBox[{"ps$selected", "=", 
+                 RowBox[{"-", "1"}]}]}], "]"}], ",", "\[IndentingNewLine]", 
+              RowBox[{"(*", 
+               RowBox[{"===", "===", "===", "==="}], "*)"}], 
+              "\[IndentingNewLine]", "\[IndentingNewLine]", "SDLMOUSEMOTION", 
+              ",", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"mousePos", "=", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"SDLEvent", "[", "event", "]"}], 
+                    "[", "\"\<motion\>\"", "]"}], "[", "\"\<x\>\"", "]"}], ",", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"SDLEvent", "[", "event", "]"}], 
+                    "[", "\"\<motion\>\"", "]"}], "[", "\"\<y\>\"", "]"}]}], 
+                 "}"}]}], ";", "\[IndentingNewLine]", 
+               RowBox[{"If", "[", 
+                RowBox[{
+                 RowBox[{"ps$selected", ">=", "1"}], ",", 
+                 RowBox[{
+                  RowBox[{"ps", "[", 
+                   RowBox[{"[", "ps$selected", "]"}], "]"}], "=", 
+                  "mousePos"}]}], "]"}]}], ",", "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", 
+              RowBox[{"(*", 
+               RowBox[{"===", "===", "===", "==="}], "**)"}], 
+              "\[IndentingNewLine]", "SDLMOUSEWHEEL", ",", 
+              "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"If", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"SDLEvent", "[", "event", "]"}], 
+                    "[", "\"\<wheel\>\"", "]"}], "[", "\"\<y\>\"", "]"}], ">",
+                   "0"}], ",", 
+                 RowBox[{"bezierStep", "=", 
+                  RowBox[{"Min", "[", 
+                   RowBox[{
+                    RowBox[{"bezierStep", "+", ".01"}], ",", ".99"}], 
+                   "]"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+               RowBox[{"If", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"SDLEvent", "[", "event", "]"}], 
+                    "[", "\"\<wheel\>\"", "]"}], "[", "\"\<y\>\"", "]"}], "<",
+                   "0"}], ",", 
+                 RowBox[{"bezierStep", "=", 
+                  RowBox[{"Max", "[", 
+                   RowBox[{
+                    RowBox[{"bezierStep", "-", ".01"}], ",", ".001"}], 
+                   "]"}]}]}], "]"}]}]}], "\[IndentingNewLine]", "]"}]}], 
+           "\[IndentingNewLine]", "\[IndentingNewLine]", 
+           "\[IndentingNewLine]", "\[IndentingNewLine]", 
+           "\[IndentingNewLine]", "\[IndentingNewLine]", 
+           "\[IndentingNewLine]", "\[IndentingNewLine]", 
+           "\[IndentingNewLine]", "\[IndentingNewLine]", 
+           "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]",
+           "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{"SDLSetRenderDrawColor", "[", 
+           RowBox[{"renderer", ",", 
+            RowBox[{"ColorSDL", "[", 
+             RowBox[{"RGBColor", "[", "BACKGROUND$COLOR", "]"}], "]"}]}], 
+           "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{"SDLRenderClear", "[", "renderer", "]"}], ";", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]",
+           "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"ps$count", ">=", "4"}], ",", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"If", "[", 
+              RowBox[{"markers", ",", "\[IndentingNewLine]", 
+               RowBox[{"renderBezierMarkers", "[", 
+                RowBox[{"renderer", ",", 
+                 RowBox[{"ps", "[", 
+                  RowBox[{"[", "1", "]"}], "]"}], ",", 
+                 RowBox[{"ps", "[", 
+                  RowBox[{"[", "2", "]"}], "]"}], ",", 
+                 RowBox[{"ps", "[", 
+                  RowBox[{"[", "3", "]"}], "]"}], ",", 
+                 RowBox[{"ps", "[", 
+                  RowBox[{"[", "4", "]"}], "]"}], ",", "bezierStep", ",", 
+                 "GREEN$COLOR"}], "]"}], "\[IndentingNewLine]", ",", 
+               "\[IndentingNewLine]", 
+               RowBox[{"renderBezierCurve", "[", 
+                RowBox[{"renderer", ",", 
+                 RowBox[{"ps", "[", 
+                  RowBox[{"[", "1", "]"}], "]"}], ",", 
+                 RowBox[{"ps", "[", 
+                  RowBox[{"[", "2", "]"}], "]"}], ",", 
+                 RowBox[{"ps", "[", 
+                  RowBox[{"[", "3", "]"}], "]"}], ",", 
+                 RowBox[{"ps", "[", 
+                  RowBox[{"[", "4", "]"}], "]"}], ",", "bezierStep", ",", 
+                 "GREEN$COLOR"}], "]"}]}], "\[IndentingNewLine]", "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"renderLine", "[", 
+              RowBox[{"renderer", ",", 
+               RowBox[{"ps", "[", 
+                RowBox[{"[", "1", "]"}], "]"}], ",", 
+               RowBox[{"ps", "[", 
+                RowBox[{"[", "2", "]"}], "]"}], ",", "RED$COLOR"}], "]"}], ";",
+              "\[IndentingNewLine]", 
+             RowBox[{"renderLine", "[", 
+              RowBox[{"renderer", ",", 
+               RowBox[{"ps", "[", 
+                RowBox[{"[", "3", "]"}], "]"}], ",", 
+               RowBox[{"ps", "[", 
+                RowBox[{"[", "4", "]"}], "]"}], ",", "RED$COLOR"}], "]"}], 
+             ";"}]}], "\[IndentingNewLine]", "]"}], ";", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{"For", " ", "[", " ", 
+           RowBox[{
+            RowBox[{"i", "=", "1"}], ",", 
+            RowBox[{"i", "<=", "ps$count"}], ",", 
+            RowBox[{"++", "i"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"renderMarker", "[", 
+             RowBox[{"renderer", ",", 
+              RowBox[{"ps", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], ",", "RED$COLOR"}], "]"}]}], 
+           "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]",
+           "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{"SDLRenderPresent", "[", "renderer", "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"SDLDelay", "[", "deltaTimeMs", "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"t", "+=", "deltaTimeSec"}], ";"}]}], "\[IndentingNewLine]",
+         "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"kill", "[", 
+        RowBox[{"window", ",", "renderer"}], "]"}]}]}], "\[IndentingNewLine]",
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "==="}], "="}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"lerpf", "[", 
+     RowBox[{"a_", ",", "b_", ",", " ", "p_"}], "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", "\n", 
+      RowBox[{
+       RowBox[{"Return", "[", " ", 
+        RowBox[{"a", "+", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"b", "-", "a"}], ")"}], "*", "p"}]}], "]"}], ";"}]}], 
+     "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"vec2", "[", " ", 
+     RowBox[{"x_", ",", "y_"}], "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", "\n", 
+      RowBox[{"Return", " ", "[", 
+       RowBox[{"{", 
+        RowBox[{"x", ",", "y"}], "}"}], "]"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"vec2add", "[", " ", 
+     RowBox[{"a_List", ",", "b_List"}], "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", "\n", 
+      RowBox[{"Return", " ", "[", 
+       RowBox[{"a", "+", "b"}], "]"}]}], "\[IndentingNewLine]", "]"}]}], 
+   ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"lerpv2", "[", " ", 
+     RowBox[{"a_List", ",", " ", "b_List", ",", "p_"}], "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", "\n", 
+      RowBox[{"Return", " ", "[", 
+       RowBox[{"a", "+", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"b", "-", "a"}], ")"}], "*", "p"}], ")"}]}], "]"}]}], 
+     "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"renderLine", "[", 
+     RowBox[{
+     "renderer_", ",", " ", "begin_", ",", " ", "end_", ",", " ", "color_"}], 
+     "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"SDLSetRenderDrawColor", "[", 
+        RowBox[{"renderer", ",", 
+         RowBox[{"ColorSDL", "[", 
+          RowBox[{"RGBColor", "[", "color", "]"}], "]"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"SDLRenderDrawLine", "[", 
+        RowBox[{"renderer", ",", "\[IndentingNewLine]", 
+         RowBox[{"IntegerPart", "[", 
+          RowBox[{"begin", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", 
+         RowBox[{"IntegerPart", "[", 
+          RowBox[{"begin", "[", 
+           RowBox[{"[", "2", "]"}], "]"}], "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"IntegerPart", "[", 
+          RowBox[{"end", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", 
+         RowBox[{"IntegerPart", "[", 
+          RowBox[{"end", "[", 
+           RowBox[{"[", "2", "]"}], "]"}], "]"}]}], "\[IndentingNewLine]", 
+        "]"}]}]}], "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"renderMarker", "[", 
+     RowBox[{"renderer_", ",", " ", "pos_List", ",", " ", "color_"}], "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"MARKER$SIZE", " ", "=", "15"}], ",", "size"}], "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"size", "=", 
+        RowBox[{"{", 
+         RowBox[{"MARKER$SIZE", ",", "MARKER$SIZE"}], "}"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"fillRec", "[", 
+        RowBox[{"renderer", ",", 
+         RowBox[{"pos", "-", 
+          RowBox[{"(", 
+           RowBox[{"size", "*", "0.5"}], ")"}]}], ",", "size", ",", "color"}],
+         "]"}]}]}], "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"bezierSample", "[", 
+     RowBox[{
+     "a_List", ",", " ", "b_List", ",", " ", "c_", ",", " ", "d_", ",", " ", 
+      "p_"}], "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "ab", ",", "bc", ",", "cd", ",", "abc", ",", "bcd", ",", "abcd"}], 
+       "}"}], ",", "\[IndentingNewLine]", " ", 
+      RowBox[{
+       RowBox[{"ab", "=", 
+        RowBox[{"lerpv2", "[", 
+         RowBox[{"a", ",", "b", ",", "p"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", " ", 
+       RowBox[{"bc", "=", 
+        RowBox[{"lerpv2", "[", 
+         RowBox[{"b", ",", "c", ",", "p"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", " ", 
+       RowBox[{"cd", "=", 
+        RowBox[{"lerpv2", "[", 
+         RowBox[{"c", ",", "d", ",", "p"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", " ", 
+       RowBox[{"abc", "=", 
+        RowBox[{"lerpv2", "[", 
+         RowBox[{"ab", ",", "bc", ",", "p"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"bcd", "=", 
+        RowBox[{"lerpv2", "[", 
+         RowBox[{"bc", ",", "cd", ",", "p"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", " ", 
+       RowBox[{"abcd", "=", 
+        RowBox[{"lerpv2", "[", 
+         RowBox[{"abc", ",", "bcd", ",", "p"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Return", " ", "[", "abcd", "]"}], ";"}]}], 
+     "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"renderBezierMarkers", "[", 
+    RowBox[{
+    "renderer_", ",", "a_List", ",", "b_List", ",", " ", "c_List", ",", " ", 
+     "d_List", ",", " ", "s_", ",", " ", "color_"}], "]"}], ":=", 
+   RowBox[{"Block", "[", 
+    RowBox[{
+     RowBox[{"{", "p", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"For", "[", 
+      RowBox[{
+       RowBox[{"p", "=", "0"}], ",", 
+       RowBox[{"p", "<", "1"}], ",", 
+       RowBox[{"p", "+=", "s"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"renderMarker", "[", 
+         RowBox[{"renderer", ",", 
+          RowBox[{"bezierSample", "[", 
+           RowBox[{"a", ",", "b", ",", "c", ",", "d", ",", "p"}], "]"}], ",", 
+          "color"}], "]"}], ";"}]}], "\[IndentingNewLine]", "]"}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"renderBezierCurve", "[", 
+     RowBox[{
+     "renderer_", ",", "a_List", ",", "b_List", ",", " ", "c_List", ",", " ", 
+      "d_List", ",", " ", "s_", ",", " ", "color_"}], "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"p", ",", "begin", ",", "end"}], "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"For", "[", 
+       RowBox[{
+        RowBox[{"p", "=", "0"}], ",", 
+        RowBox[{"p", "<", "1"}], ",", 
+        RowBox[{"p", "+=", "s"}], ",", "\[IndentingNewLine]", " ", 
+        RowBox[{
+         RowBox[{"begin", "=", 
+          RowBox[{"bezierSample", "[", 
+           RowBox[{"a", ",", "b", ",", "c", ",", "d", ",", "p"}], "]"}]}], ";",
+          "\[IndentingNewLine]", " ", 
+         RowBox[{"end", "=", 
+          RowBox[{"bezierSample", "[", 
+           RowBox[{"a", ",", "b", ",", "c", ",", "d", ",", 
+            RowBox[{"p", "+", "s"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+         RowBox[{"renderLine", "[", 
+          RowBox[{"renderer", ",", "begin", ",", "end", ",", "color"}], "]"}],
+          ";"}]}], "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"psAt", "[", " ", "pos_", "]"}], ":=", 
+   RowBox[{"Block", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"i", ",", "pssize", ",", " ", "psbegin", ",", " ", "psend"}], 
+      "}"}], ",", "\n", " ", 
+     RowBox[{
+      RowBox[{"pssize", "=", 
+       RowBox[{"{", 
+        RowBox[{"MARKER$SIZE", ",", "MARKER$SIZE"}], "}"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"For", "[", " ", 
+       RowBox[{
+        RowBox[{"i", "=", "1"}], ",", 
+        RowBox[{"i", "<=", "ps$count"}], ",", 
+        RowBox[{"++", "i"}], ",", "\[IndentingNewLine]", " ", 
+        RowBox[{
+         RowBox[{"psbegin", "=", 
+          RowBox[{
+           RowBox[{"ps", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], "-", 
+           RowBox[{"pssize", "*", "0.5"}]}]}], ";", "\[IndentingNewLine]", 
+         " ", 
+         RowBox[{"psend", "=", 
+          RowBox[{"psbegin", "+", "pssize"}]}], ";", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"And", "[", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"psbegin", "[", 
+               RowBox[{"[", "1", "]"}], "]"}], "<=", 
+              RowBox[{"pos", "[", 
+               RowBox[{"[", "1", "]"}], "]"}]}], ",", 
+             RowBox[{
+              RowBox[{"pos", "[", 
+               RowBox[{"[", "1", "]"}], "]"}], "<=", 
+              RowBox[{"psend", "[", 
+               RowBox[{"[", "1", "]"}], "]"}]}], ",", "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"psbegin", "[", 
+               RowBox[{"[", "2", "]"}], "]"}], "<=", 
+              RowBox[{"pos", "[", 
+               RowBox[{"[", "2", "]"}], "]"}]}], ",", 
+             RowBox[{
+              RowBox[{"pos", "[", 
+               RowBox[{"[", "2", "]"}], "]"}], "<=", 
+              RowBox[{"psend", "[", 
+               RowBox[{"[", "2", "]"}], "]"}]}]}], "\[IndentingNewLine]", 
+            "]"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Return", " ", "[", 
+             RowBox[{"IntegerPart", "[", "i", "]"}], "]"}], ";"}]}], 
+          "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", "]"}], ";",
+       "\[IndentingNewLine]", 
+      RowBox[{"Return", "[", 
+       RowBox[{"-", "1"}], "]"}]}]}], "\[IndentingNewLine]", "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.9730742692650166`*^9, 3.973074360562729*^9}, {
+   3.9730743965570335`*^9, 3.9730744196901035`*^9}, {3.9730744647570343`*^9, 
+   3.973074576198223*^9}, {3.9730746239019337`*^9, 3.973074677121876*^9}, {
+   3.9730749244832726`*^9, 3.973074974424349*^9}, {3.9730750186592827`*^9, 
+   3.973075019433077*^9}, {3.973075160591503*^9, 3.9730751652041664`*^9}, {
+   3.9730755083762875`*^9, 3.9730756049860153`*^9}, {3.9730756365675564`*^9, 
+   3.9730756425127964`*^9}, {3.9730757788736305`*^9, 
+   3.9730758043931274`*^9}, {3.9730759395500755`*^9, 3.973076180802187*^9}, {
+   3.9730762772377853`*^9, 3.973076307634077*^9}, {3.973076473212227*^9, 
+   3.973076473977543*^9}, {3.973076880896862*^9, 3.973076903065853*^9}, {
+   3.9730769428651524`*^9, 3.973076986675352*^9}, {3.9730771831257095`*^9, 
+   3.9730771979150105`*^9}, {3.973077472739212*^9, 3.9730774826763783`*^9}, {
+   3.9730775240952663`*^9, 3.973077578394251*^9}, {3.973077926314577*^9, 
+   3.9730779287123756`*^9}, {3.9730785685281696`*^9, 3.973078699585037*^9}, {
+   3.973078747855156*^9, 3.9730787700919323`*^9}, {3.973079292658308*^9, 
+   3.9730793352548695`*^9}, {3.973080232869484*^9, 3.973080273102371*^9}, {
+   3.9730803955343475`*^9, 3.9730805940488625`*^9}, {3.973080662380745*^9, 
+   3.973080668512491*^9}, 3.973080744919176*^9, {3.9730808283876476`*^9, 
+   3.9730808763166523`*^9}, {3.9730809340265102`*^9, 
+   3.9730809428156624`*^9}, {3.9730809815436306`*^9, 3.97308104392737*^9}, {
+   3.973081107962763*^9, 3.9730811260836105`*^9}, {3.9730814000118713`*^9, 
+   3.973081404043947*^9}, {3.973081436067093*^9, 3.9730814560729923`*^9}, {
+   3.9730814973436832`*^9, 3.9730815248555927`*^9}, {3.9730815625856876`*^9, 
+   3.973081667184017*^9}, 3.9730817133736305`*^9, {3.97308176854093*^9, 
+   3.9730817781908627`*^9}, {3.9730839954992943`*^9, 3.973084051994705*^9}, {
+   3.973084233406107*^9, 3.97308441505365*^9}, {3.973084478179205*^9, 
+   3.973084484531145*^9}, {3.9730845469358044`*^9, 3.9730845574829025`*^9}, {
+   3.97308468300078*^9, 3.973084734901722*^9}, {3.973084771565956*^9, 
+   3.973084772658619*^9}, {3.973084824938938*^9, 3.97308487066103*^9}, {
+   3.9730849033218822`*^9, 3.973085013731474*^9}, {3.9730850554609184`*^9, 
+   3.973085080390951*^9}, {3.9730851116413784`*^9, 3.9730851278509808`*^9}, {
+   3.9730852408495655`*^9, 3.9730852462385197`*^9}, {3.973085283157894*^9, 
+   3.973085433115391*^9}, {3.9730855825698013`*^9, 3.9730856668968277`*^9}, {
+   3.973085699499029*^9, 3.9730857700815067`*^9}, {3.973085854049675*^9, 
+   3.973085871732374*^9}, {3.9730860235673065`*^9, 3.9730860237420425`*^9}, {
+   3.9730861206496563`*^9, 3.973086189612961*^9}, {3.973086230660862*^9, 
+   3.9730862759343147`*^9}, {3.973086425835703*^9, 3.9730865371071205`*^9}, {
+   3.9730865674746056`*^9, 3.973086696739294*^9}, {3.973095019638565*^9, 
+   3.973095080860203*^9}, {3.973843548620905*^9, 3.9738436357123146`*^9}, {
+   3.9738437661255016`*^9, 3.9738438259631157`*^9}, {3.973843940564207*^9, 
+   3.973844130511587*^9}, {3.973844171745577*^9, 3.9738441848526134`*^9}, {
+   3.973844236937155*^9, 3.973844248545435*^9}, {3.973844288335001*^9, 
+   3.973844408572016*^9}, {3.973844475392187*^9, 3.973844571080576*^9}, 
+   3.973844633104616*^9, {3.9738447323247967`*^9, 3.973844825333187*^9}, {
+   3.9738449074378166`*^9, 3.973844913865553*^9}, {3.9738807055119457`*^9, 
+   3.973880708858618*^9}, {3.97388116970916*^9, 3.97388120843215*^9}, {
+   3.973881240672798*^9, 3.9738812521275043`*^9}, {3.973882697098974*^9, 
+   3.9738827167449837`*^9}, {3.9738828184809704`*^9, 3.973882837512665*^9}, {
+   3.9738832111760635`*^9, 3.9738832378879986`*^9}, {3.973883304786497*^9, 
+   3.973883337177807*^9}, 3.9738834311222153`*^9, {3.9738835202477016`*^9, 
+   3.9738835878143883`*^9}, {3.9738836494814568`*^9, 
+   3.9738836530587234`*^9}, {3.973883694046753*^9, 3.973883708604601*^9}, {
+   3.973883764271326*^9, 3.973883795530987*^9}, {3.9738838278493347`*^9, 
+   3.9738838290545464`*^9}, {3.9738838830805225`*^9, 
+   3.9738838856704884`*^9}, {3.973883918995743*^9, 3.973883926599497*^9}, {
+   3.9738839772611217`*^9, 3.9738839819677296`*^9}, {3.973884016743292*^9, 
+   3.9738840233835278`*^9}, {3.973885367712578*^9, 3.973885503801285*^9}, {
+   3.973885720393265*^9, 3.973885782487793*^9}, {3.97388582327162*^9, 
+   3.973885898416813*^9}, {3.973886024972889*^9, 3.973886060039507*^9}, {
+   3.973886262325384*^9, 3.9738863000849247`*^9}, {3.9738865653057785`*^9, 
+   3.9738865916151543`*^9}, {3.9738867331859016`*^9, 3.973886737736658*^9}, {
+   3.9738882348526936`*^9, 3.973888313232998*^9}, {3.973888531254652*^9, 
+   3.973888596885084*^9}, {3.9738887498308296`*^9, 3.973888775837364*^9}, {
+   3.9738888500949593`*^9, 3.973888852389887*^9}, {3.9738889312833176`*^9, 
+   3.9738889351120586`*^9}, {3.9738890769385185`*^9, 
+   3.9738890842916603`*^9}, {3.973889281711302*^9, 3.9738892837459984`*^9}, {
+   3.9738895563725224`*^9, 3.973889557321953*^9}, {3.973889701937023*^9, 
+   3.9738897170400887`*^9}, {3.973889808152811*^9, 3.973889810393095*^9}, {
+   3.9738898942381496`*^9, 3.9738899897757263`*^9}, {3.973890077349848*^9, 
+   3.9738901260123577`*^9}, 3.9738901633371735`*^9, {3.973890251693947*^9, 
+   3.973890380439535*^9}, {3.9738905284849377`*^9, 3.9738905323674927`*^9}, {
+   3.973890911178051*^9, 3.973890928069853*^9}, {3.973891250956173*^9, 
+   3.9738912614392643`*^9}, 3.9738913772192554`*^9, {3.973891428040201*^9, 
+   3.973891444076292*^9}, {3.9738914816209946`*^9, 3.973891516991562*^9}, {
+   3.973891555446684*^9, 3.973891583874611*^9}, {3.973891627157812*^9, 
+   3.9738916538416233`*^9}, {3.973891953829666*^9, 3.9738919672401047`*^9}, {
+   3.973892519854103*^9, 3.9738925631694336`*^9}, {3.9738926195756454`*^9, 
+   3.973892634775034*^9}, {3.973892731440031*^9, 3.9738927580430794`*^9}, {
+   3.973892837098419*^9, 3.9738928442049503`*^9}, {3.9738930634423485`*^9, 
+   3.9738930686932087`*^9}, 3.973893121508253*^9, {3.9738931946384087`*^9, 
+   3.973893197597109*^9}, {3.973893325507765*^9, 3.9738933613494835`*^9}, {
+   3.9738934034161396`*^9, 3.973893404037508*^9}, {3.9738934713289413`*^9, 
+   3.9738934793708763`*^9}, {3.9738935188664265`*^9, 3.973893519469824*^9}, 
+   3.9738936006967735`*^9, {3.973895306401804*^9, 3.973895334388836*^9}, {
+   3.973895390303911*^9, 3.973895395124031*^9}, {3.9738955028188343`*^9, 
+   3.973895503397192*^9}, 3.9738959249330177`*^9, {3.973898394111965*^9, 
+   3.9738984340112057`*^9}, {3.9738984939744816`*^9, 3.973898504610092*^9}, {
+   3.974142626848713*^9, 3.974142638961752*^9}, {3.974142689286381*^9, 
+   3.974142735359707*^9}, {3.974142777015341*^9, 3.974142779620388*^9}, {
+   3.974142873309395*^9, 3.974142883711815*^9}, {3.9741429141838913`*^9, 
+   3.9741429237978535`*^9}, {3.9741430093415394`*^9, 
+   3.9741430306381683`*^9}, {3.974143065430029*^9, 3.97414307074312*^9}, {
+   3.9741445873928967`*^9, 3.9741446468031387`*^9}, {3.974144908695713*^9, 
+   3.974144919952816*^9}, 3.9741450687587776`*^9, {3.9741451364140873`*^9, 
+   3.97414513864847*^9}, {3.9741452026464024`*^9, 3.974145250418968*^9}, {
+   3.974145303296406*^9, 3.974145334179306*^9}, {3.9741453765819416`*^9, 
+   3.9741453976617146`*^9}, {3.9741454371283264`*^9, 
+   3.9741454403314533`*^9}, {3.9741459648185673`*^9, 
+   3.9741460640839005`*^9}, {3.9741461108943996`*^9, 
+   3.9741461688310127`*^9}, {3.9741462298493347`*^9, 
+   3.9741462708604927`*^9}, {3.97414631115102*^9, 3.9741464021112633`*^9}, {
+   3.9741464903348103`*^9, 3.9741466245545273`*^9}, {3.974188727765568*^9, 
+   3.974188757609398*^9}, {3.974189306641676*^9, 3.9741893192100716`*^9}, {
+   3.974194449559656*^9, 3.9741944596685734`*^9}, {3.9863260377546825`*^9, 
+   3.9863260401706295`*^9}, {3.9863260728717422`*^9, 3.9863260736845455`*^9}},
+ Background->RGBColor[0.87, 0.94, 1],
+ CellLabel->
+  "In[1402]:=",ExpressionUUID->"ef4bfa04-0e05-7e42-9562-ebd9284c493b"]
+},
+WindowSize->{1012.5, 531.75},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+SpellingDictionaries->{"CorrectWords"->{
+ "cmptmp", "ifcont", "multmp", "ifcond", "Tsoding"}},
+Magnification:>0.75 Inherited,
+FrontEndVersion->"14.2 for Microsoft Windows (64-bit) (March 14, 2025)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"d6313f6e-9275-7245-87ae-23f84cfed532"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 405, 10, 41, "Text",ExpressionUUID->"3e52a476-1570-1246-af2a-4581c15be24d"],
+Cell[962, 32, 356, 6, 32, "Input",ExpressionUUID->"fa51cba5-4280-a747-89e8-73da3deb9a34"],
+Cell[1321, 40, 35943, 752, 3397, "Input",ExpressionUUID->"ef4bfa04-0e05-7e42-9562-ebd9284c493b"]
+}
+]
+*)
+
