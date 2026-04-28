@@ -1,0 +1,570 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     23257,        562]
+NotebookOptionsPosition[     22069,        536]
+NotebookOutlinePosition[     22472,        552]
+CellTagsIndexPosition[     22429,        549]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"NULL", "=", 
+   RowBox[{"OpaqueRawPointer", "[", "0", "]"}]}], ";"}]], "Input",
+ CellLabel->
+  "In[1361]:=",ExpressionUUID->"4881cf8f-d204-f344-b172-070b00f91939"],
+
+Cell[CellGroupData[{
+
+Cell["rect", "Chapter",
+ CellChangeTimes->{{3.977038690212137*^9, 
+  3.9770386911691895`*^9}},ExpressionUUID->"0d5e7646-bf0c-ac49-b49e-\
+40222091d2a0"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"SDLRectGet", "[", 
+     RowBox[{"rect_", ",", "n_"}], "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"add", "=", 
+        RowBox[{"rect", "[", "\"\<Address\>\"", "]"}]}], "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Switch", "[", 
+       RowBox[{"n", ",", "\[IndentingNewLine]", "\"\<x\>\"", ",", 
+        RowBox[{"Return", "[", 
+         RowBox[{"RawMemoryRead", "[", 
+          RowBox[{
+           RowBox[{"RawPointer", "[", 
+            RowBox[{"add", ",", "\"\<CInt\>\""}], "]"}], ",", "0"}], "]"}], 
+         "]"}], ",", "\[IndentingNewLine]", "\"\<y\>\"", ",", 
+        RowBox[{"Return", "[", 
+         RowBox[{"RawMemoryRead", "[", 
+          RowBox[{
+           RowBox[{"RawPointer", "[", 
+            RowBox[{"add", ",", "\"\<CInt\>\""}], "]"}], ",", "1"}], "]"}], 
+         "]"}], ",", "\[IndentingNewLine]", "\"\<w\>\"", ",", 
+        RowBox[{"Return", "[", 
+         RowBox[{"RawMemoryRead", "[", 
+          RowBox[{
+           RowBox[{"RawPointer", "[", 
+            RowBox[{"add", ",", "\"\<CInt\>\""}], "]"}], ",", "2"}], "]"}], 
+         "]"}], ",", "\[IndentingNewLine]", "\"\<h\>\"", ",", 
+        RowBox[{"Return", "[", 
+         RowBox[{"RawMemoryRead", "[", 
+          RowBox[{
+           RowBox[{"RawPointer", "[", 
+            RowBox[{"add", ",", "\"\<CInt\>\""}], "]"}], ",", "3"}], "]"}], 
+         "]"}], ",", "\[IndentingNewLine]", "_", ",", "\[IndentingNewLine]", 
+        RowBox[{"Abort", "[", "]"}]}], "\[IndentingNewLine]", "]"}]}], 
+     "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"SDLRectSet", "[", 
+     RowBox[{"rect_", ",", "n_", ",", "val_"}], "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"add", "=", 
+        RowBox[{"rect", "[", "\"\<Address\>\"", "]"}]}], "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"Switch", "[", 
+        RowBox[{"n", ",", "\[IndentingNewLine]", "\"\<x\>\"", ",", 
+         RowBox[{"Return", "[", 
+          RowBox[{"RawMemoryWrite", "[", 
+           RowBox[{
+            RowBox[{"RawPointer", "[", 
+             RowBox[{"add", ",", "\"\<CInt\>\""}], "]"}], ",", "val", ",", 
+            "0"}], "]"}], "]"}], ",", "\[IndentingNewLine]", "\"\<y\>\"", ",", 
+         RowBox[{"Return", "[", 
+          RowBox[{"RawMemoryWrite", "[", 
+           RowBox[{
+            RowBox[{"RawPointer", "[", 
+             RowBox[{"add", ",", "\"\<CInt\>\""}], "]"}], ",", "val", ",", 
+            "1"}], "]"}], "]"}], ",", "\[IndentingNewLine]", "\"\<w\>\"", ",", 
+         RowBox[{"Return", "[", 
+          RowBox[{"RawMemoryWrite", "[", 
+           RowBox[{
+            RowBox[{"RawPointer", "[", 
+             RowBox[{"add", ",", "\"\<CInt\>\""}], "]"}], ",", "val", ",", 
+            "2"}], "]"}], "]"}], ",", "\[IndentingNewLine]", "\"\<h\>\"", ",", 
+         RowBox[{"Return", "[", 
+          RowBox[{"RawMemoryWrite", "[", 
+           RowBox[{
+            RowBox[{"RawPointer", "[", 
+             RowBox[{"add", ",", "\"\<CInt\>\""}], "]"}], ",", "val", ",", 
+            "3"}], "]"}], "]"}], ",", "\[IndentingNewLine]", "_", ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"Abort", "[", "]"}]}], "\[IndentingNewLine]", "]"}], ";"}]}],
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"SDLRectUpdate", "[", 
+     RowBox[{"rect_", ",", "n_", ",", "uval_"}], "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", "val", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"val", "=", 
+        RowBox[{"SDLRectGet", "[", 
+         RowBox[{"rect", ",", "n"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"SDLRectSet", "[", 
+        RowBox[{"rect", ",", "n", ",", 
+         RowBox[{"val", "+", "uval"}]}], "]"}], ";"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"SDLRectFromArray", "[", 
+     RowBox[{"rects_", ",", 
+      RowBox[{"n_", ":", "0"}]}], "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"add", "=", 
+        RowBox[{"rects", "[", "\"\<Address\>\"", "]"}]}], "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"RawPointer", "[", 
+       RowBox[{
+        RowBox[{"add", "+", 
+         RowBox[{"(", 
+          RowBox[{"n", "*", "16"}], ")"}]}], ",", 
+        RowBox[{"SDLType", "[", "\"\<SDL_Rect\>\"", "]"}]}], "]"}]}], 
+     "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", "SDLRectUpdateFromArray", "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.97671254547941*^9, 3.976712559010357*^9}, {
+   3.9767249769341297`*^9, 3.9767249795526524`*^9}, {3.9770387704121857`*^9, 
+   3.9770387949667416`*^9}, {3.9829684402621975`*^9, 3.982968451009636*^9}, 
+   3.9839031892092667`*^9},
+ CellLabel->
+  "In[1362]:=",ExpressionUUID->"eeb536fb-6749-9e4d-be96-bb84fad3bd3d"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["event", "Chapter",
+ CellChangeTimes->{{3.977038667765671*^9, 
+  3.977038669811304*^9}},ExpressionUUID->"217e8035-bf2a-e64a-9c4d-\
+5a1dbf0f9aff"],
+
+Cell[BoxData[
+ RowBox[{" ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"SDLEvent", "[", "event_", "]"}], "[", "\"\<key\>\"", "]"}], 
+     "[", "\"\<keysym\>\"", "]"}], ":=", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"SDLEvent", "[", "event", "]"}], "[", "\"\<key\>\"", "]"}], "[", 
+     RowBox[{"[", "8", "]"}], "]"}]}], "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"https", ":"}], "//", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"github", ".", "com"}], "/", "libsdl"}], "-", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"org", "/", "SDL"}], "/", "blob"}], "/", "SDL2"}], "/", 
+       "include"}], "/", 
+      RowBox[{"SDL_events", ".", "h"}]}]}]}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"SDLEvent", "[", "event_", "]"}], "[", "union_", "]"}], ":=", 
+   RowBox[{"Which", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"union", "===", "\"\<type\>\""}], ",", "\[IndentingNewLine]", 
+     RowBox[{"RawMemoryRead", "[", 
+      RowBox[{"RawPointer", "[", 
+       RowBox[{"event", ",", "Uint32"}], "]"}], "]"}], ",", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"union", "===", "\"\<common\>\""}], ",", "\[IndentingNewLine]", 
+     RowBox[{"RawMemoryRead", "[", 
+      RowBox[{"RawPointer", "[", 
+       RowBox[{"event", ",", 
+        RowBox[{"SDLType", "[", "\"\<SDL_CommonEvent\>\"", "]"}]}], "]"}], 
+      "]"}], ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"union", "===", "\"\<motion\>\""}], ",", "\[IndentingNewLine]", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"ptr", "=", 
+         RowBox[{"RawMemoryRead", "[", 
+          RowBox[{"RawPointer", "[", 
+           RowBox[{"event", ",", 
+            RowBox[{"SDLType", "[", "\"\<SDL_MouseMotionEvent\>\"", "]"}]}], 
+           "]"}], "]"}]}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"Association", "[", "\[IndentingNewLine]", 
+        RowBox[{"Thread", "[", 
+         RowBox[{
+          RowBox[{"{", "\[IndentingNewLine]", 
+           
+           RowBox[{"\"\<type\>\"", ",", "\"\<timestamp\>\"", 
+            ",", "\"\<windowID\>\"", ",", "\"\<which\>\"", 
+            ",", "\"\<state\>\"", ",", "\"\<x\>\"", ",", "\"\<y\>\"", 
+            ",", "\"\<xrel\>\"", ",", "\"\<yrel\>\""}], "\[IndentingNewLine]",
+            "}"}], "->", "ptr"}], "\[IndentingNewLine]", "]"}], "]"}]}], 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", "]"}], ",", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"union", "===", "\"\<key\>\""}], ",", "\[IndentingNewLine]", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"ptr", "=", 
+         RowBox[{"RawMemoryRead", "[", 
+          RowBox[{"RawPointer", "[", 
+           RowBox[{"event", ",", 
+            RowBox[{"SDLType", "[", "\"\<SDL_KeyboardEvent\>\"", "]"}]}], 
+           "]"}], "]"}]}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"ptr", "=", 
+         RowBox[{"MapAt", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Association", "[", 
+             RowBox[{"Thread", "[", 
+              RowBox[{
+               RowBox[{"{", 
+                
+                RowBox[{"\"\<scancode\>\"", ",", "\"\<sym\>\"", 
+                 ",", "\"\<mod\>\"", ",", "\"\<unused\>\""}], "}"}], "->", 
+               "#"}], "]"}], "]"}], "&"}], ",", "ptr", ",", "8"}], "]"}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"ptr", "=", 
+         RowBox[{"Association", "[", "\[IndentingNewLine]", 
+          RowBox[{"Thread", "[", 
+           RowBox[{
+            RowBox[{"{", "\[IndentingNewLine]", 
+             
+             RowBox[{"\"\<type\>\"", ",", "\"\<timestamp\>\"", 
+              ",", "\"\<windowID\>\"", ",", "\"\<state\>\"", 
+              ",", "\"\<repeat\>\"", ",", "\"\<padding2\>\"", 
+              ",", "\"\<padding3\>\"", ",", "\"\<keysym\>\""}], 
+             "\[IndentingNewLine]", "}"}], "->", "ptr"}], 
+           "\[IndentingNewLine]", "]"}], "]"}]}]}]}], "\[IndentingNewLine]", 
+      "]"}], ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"union", "===", "\"\<button\>\""}], ",", "\[IndentingNewLine]", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"ptr", "=", 
+         RowBox[{"RawMemoryRead", "[", 
+          RowBox[{"RawPointer", "[", 
+           RowBox[{"event", ",", 
+            RowBox[{"SDLType", "[", "\"\<SDL_MouseButtonEvent\>\"", "]"}]}], 
+           "]"}], "]"}]}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"Association", "[", "\[IndentingNewLine]", 
+        RowBox[{"Thread", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           
+           RowBox[{"\"\<type\>\"", ",", "\"\<timestamp\>\"", 
+            ",", "\"\<windowID\>\"", ",", "\"\<which\>\"", 
+            ",", "\"\<button\>\"", ",", "\"\<state\>\"", ",", "\"\<clicks\>\"",
+             ",", "\"\<padding1\>\"", ",", "\"\<x\>\"", ",", "\"\<y\>\""}], 
+           "}"}], "->", "ptr"}], "\[IndentingNewLine]", "]"}], "]"}]}], 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", "]"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"union", "===", "\"\<wheel\>\""}], ",", "\[IndentingNewLine]", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"ptr", "=", 
+         RowBox[{"RawMemoryRead", "[", 
+          RowBox[{"RawPointer", "[", 
+           RowBox[{"event", ",", 
+            RowBox[{"SDLType", "[", "\"\<SDL_MouseWheelEvent\>\"", "]"}]}], 
+           "]"}], "]"}]}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"Association", "[", "\[IndentingNewLine]", 
+        RowBox[{"Thread", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           
+           RowBox[{"\"\<type\>\"", ",", " ", "\"\<timestamp\>\"", 
+            ",", "\"\<windowID\>\"", ",", " ", "\"\<which\>\"", ",", 
+            " ", "\"\<x\>\"", ",", "\"\<y\>\"", ",", "\"\<direction\>\"", ",",
+             "  ", "\"\<preciseX\>\"", ",", "\"\<preciseY\>\"", 
+            ",", "\"\<mouseX\>\"", ",", "\"\<mouseY\>\""}], "}"}], "->", 
+          "ptr"}], "\[IndentingNewLine]", "]"}], "]"}]}], 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", "]"}]}], 
+    "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    "]"}]}]}]], "Input",
+ CellChangeTimes->{3.977038681339859*^9},
+ CellLabel->
+  "In[1366]:=",ExpressionUUID->"34c779d7-e08a-8f4c-8ab8-10a579bdd408"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"SDLAudioSpec", "[", 
+     RowBox[{
+     "freq_", ",", "format_", ",", "channels_", ",", "silence_", ",", 
+      "samples_", ",", "padding_", ",", "\[IndentingNewLine]", "size_", ",", 
+      "callback_", ",", "userdata_"}], "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", "str", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"str", "=", 
+        RowBox[{"{", 
+         RowBox[{
+         "freq", ",", "format", ",", "channels", ",", "silence", ",", 
+          "samples", ",", "padding", ",", "size", ",", "callback", ",", 
+          "userdata"}], "}"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"UnmanageObject", "[", 
+        RowBox[{"RawMemoryExport", "[", 
+         RowBox[{
+          RowBox[{"{", "str", "}"}], ",", 
+          RowBox[{"SDLType", "[", "\"\<SDL_AudioSpec\>\"", "]"}]}], "]"}], 
+        "]"}]}]}], "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"get", "[", 
+     RowBox[{"ptr_", ",", "field_"}], "]"}], ":=", 
+    RowBox[{"Switch", "[", 
+     RowBox[{
+     "field", ",", "\[IndentingNewLine]", "\"\<samplesPerSecond\>\"", ",", 
+      RowBox[{"RawMemoryRead", "[", 
+       RowBox[{"ptr", ",", "0"}], "]"}], ",", 
+      "\[IndentingNewLine]", "\"\<numChannels\>\"", ",", 
+      RowBox[{"RawMemoryRead", "[", 
+       RowBox[{"ptr", ",", "1"}], "]"}], ",", 
+      "\[IndentingNewLine]", "\"\<bytesPerSample\>\"", ",", 
+      RowBox[{"RawMemoryRead", "[", 
+       RowBox[{"ptr", ",", "2"}], "]"}], ",", 
+      "\[IndentingNewLine]", "\"\<sampleIndex\>\"", ",", 
+      RowBox[{"RawMemoryRead", "[", 
+       RowBox[{"ptr", ",", "3"}], "]"}], ",", 
+      "\[IndentingNewLine]", "\"\<toneFrequency\>\"", ",", 
+      RowBox[{"RawMemoryRead", "[", 
+       RowBox[{"ptr", ",", "4"}], "]"}], ",", 
+      "\[IndentingNewLine]", "\"\<toneVolume\>\"", ",", 
+      RowBox[{"RawMemoryRead", "[", 
+       RowBox[{"ptr", ",", "5"}], "]"}], ",", 
+      "\[IndentingNewLine]", "\"\<wavePeriod\>\"", ",", 
+      RowBox[{"RawMemoryRead", "[", 
+       RowBox[{"ptr", ",", "6"}], "]"}]}], "\[IndentingNewLine]", "]"}]}], 
+   ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"set", "[", 
+     RowBox[{"ptr_", ",", "field_", ",", "val_"}], "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", 
+      RowBox[{
+       RowBox[{"Switch", "[", 
+        RowBox[{
+        "field", ",", "\[IndentingNewLine]", "\"\<samplesPerSecond\>\"", ",", 
+         RowBox[{"RawMemoryWrite", "[", 
+          RowBox[{"ptr", ",", "val", ",", "0"}], "]"}], ",", 
+         "\[IndentingNewLine]", "\"\<numChannels\>\"", ",", 
+         RowBox[{"RawMemoryWrite", "[", 
+          RowBox[{"ptr", ",", "val", ",", "1"}], "]"}], ",", 
+         "\[IndentingNewLine]", "\"\<bytesPerSample\>\"", ",", 
+         RowBox[{"RawMemoryWrite", "[", 
+          RowBox[{"ptr", ",", "val", ",", "2"}], "]"}], ",", 
+         "\[IndentingNewLine]", "\"\<sampleIndex\>\"", ",", 
+         RowBox[{"RawMemoryWrite", "[", 
+          RowBox[{"ptr", ",", "val", ",", "3"}], "]"}], ",", 
+         "\[IndentingNewLine]", "\"\<toneFrequency\>\"", ",", 
+         RowBox[{"RawMemoryWrite", "[", 
+          RowBox[{"ptr", ",", "val", ",", "4"}], "]"}], ",", 
+         "\[IndentingNewLine]", "\"\<toneVolume\>\"", ",", 
+         RowBox[{"RawMemoryWrite", "[", 
+          RowBox[{"ptr", ",", "val", ",", "5"}], "]"}], ",", 
+         "\[IndentingNewLine]", "\"\<wavePeriod\>\"", ",", 
+         RowBox[{"RawMemoryWrite", "[", 
+          RowBox[{"ptr", ",", "val", ",", "6"}], "]"}]}], 
+        "\[IndentingNewLine]", "]"}], ";"}]}], "\[IndentingNewLine]", "]"}]}],
+    ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.981145654587631*^9, 3.981145896543066*^9}, {
+  3.9811511376538353`*^9, 3.981151138845274*^9}},
+ CellLabel->
+  "In[1367]:=",ExpressionUUID->"0688c369-214e-034e-803a-3f440da7cc35"],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.98114591005101*^9, 3.9811459526361046`*^9}, 
+   3.9811483482936363`*^9},
+ CellLabel->
+  "In[1370]:=",ExpressionUUID->"8e2a6534-d2f3-7248-a005-79009cb8741e"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"SDLType", "[", "\"\<SDL_Surface\>\"", "]"}], ":=", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"TypeSpecifier", "[", "\"\<ListTuple\>\"", "]"}], "[", 
+    "\[IndentingNewLine]", 
+    RowBox[{"(*", "\"\<flags\>\"", "*)"}], 
+    RowBox[{"Uint32", ",", "\[IndentingNewLine]", 
+     RowBox[{"(*", "\"\<format\>\"", "*)"}], 
+     RowBox[{"SDLType", "[", "\"\<_P(SDL_PixelFormat)\>\"", "]"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", "\"\<w\>\"", "*)"}], "\"\<CInt\>\"", ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", "\"\<h\>\"", "*)"}], "\"\<CInt\>\"", ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", "\"\<pitch\>\"", "*)"}], "\"\<CInt\>\"", ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", "\"\<pixels\>\"", "*)"}], "\"\<OpaqueRawPointer\>\"", ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", "\"\<userdata\>\"", "*)"}], "\"\<OpaqueRawPointer\>\"", ",",
+      "\[IndentingNewLine]", 
+     RowBox[{"(*", "\"\<locked\>\"", "*)"}], "\"\<CInt\>\"", ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", "\"\<list_blitmap\>\"", "*)"}], "\"\<OpaqueRawPointer\>\"",
+      ",", "\[IndentingNewLine]", 
+     RowBox[{"(*", "\"\<clip_rect\>\"", "*)"}], 
+     RowBox[{"SDLType", "[", "\"\<SDL_Rect\>\"", "]"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", "\"\<map\>\"", "*)"}], 
+     RowBox[{"SDLType", "[", "\"\<_P(SDL_BlitMap)\>\"", "]"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", "\"\<refcount\>\"", "*)"}], "\"\<CInt\>\""}], "]"}]}], 
+  ";"}]], "Input",
+ CellLabel->
+  "In[1371]:=",ExpressionUUID->"1127e23d-2695-8c46-aa8c-e2d47912fa60"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"SDLSurfaceGet", "[", 
+   RowBox[{"surface_", ",", "att_"}], "]"}], ":=", 
+  RowBox[{"Block", "[", 
+   RowBox[{
+    RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"Switch", "[", 
+     RowBox[{"att", ",", "\[IndentingNewLine]", "\"\<flags\>\"", ",", 
+      RowBox[{"Return", "[", 
+       RowBox[{
+        RowBox[{"RawMemoryRead", "[", "surface", "]"}], "[", 
+        RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", 
+      "\[IndentingNewLine]", "\"\<format\>\"", ",", 
+      RowBox[{"Return", "[", 
+       RowBox[{
+        RowBox[{"RawMemoryRead", "[", "surface", "]"}], "[", 
+        RowBox[{"[", "2", "]"}], "]"}], "]"}], ",", 
+      "\[IndentingNewLine]", "\"\<w\>\"", ",", 
+      RowBox[{"Return", "[", 
+       RowBox[{
+        RowBox[{"RawMemoryRead", "[", "surface", "]"}], "[", 
+        RowBox[{"[", "3", "]"}], "]"}], "]"}], ",", 
+      "\[IndentingNewLine]", "\"\<h\>\"", ",", 
+      RowBox[{"Return", "[", 
+       RowBox[{
+        RowBox[{"RawMemoryRead", "[", "surface", "]"}], "[", 
+        RowBox[{"[", "4", "]"}], "]"}], "]"}], ",", 
+      "\[IndentingNewLine]", "\"\<pitch\>\"", ",", 
+      RowBox[{"Return", "[", 
+       RowBox[{
+        RowBox[{"RawMemoryRead", "[", "surface", "]"}], "[", 
+        RowBox[{"[", "5", "]"}], "]"}], "]"}], ",", 
+      "\[IndentingNewLine]", "\"\<pixels\>\"", ",", 
+      RowBox[{"Return", "[", 
+       RowBox[{
+        RowBox[{"RawMemoryRead", "[", "surface", "]"}], "[", 
+        RowBox[{"[", "6", "]"}], "]"}], "]"}], ",", 
+      "\[IndentingNewLine]", "\"\<userdata\>\"", ",", 
+      RowBox[{"Return", "[", 
+       RowBox[{
+        RowBox[{"RawMemoryRead", "[", "surface", "]"}], "[", 
+        RowBox[{"[", "7", "]"}], "]"}], "]"}], ",", 
+      "\[IndentingNewLine]", "\"\<locked\>\"", ",", 
+      RowBox[{"Return", "[", 
+       RowBox[{
+        RowBox[{"RawMemoryRead", "[", "surface", "]"}], "[", 
+        RowBox[{"[", "8", "]"}], "]"}], "]"}], ",", 
+      "\[IndentingNewLine]", "\"\<list_blimtmap\>\"", ",", 
+      RowBox[{"Return", "[", 
+       RowBox[{
+        RowBox[{"RawMemoryRead", "[", "surface", "]"}], "[", 
+        RowBox[{"[", "9", "]"}], "]"}], "]"}], ",", 
+      "\[IndentingNewLine]", "\"\<clip_rect\>\"", ",", 
+      RowBox[{"Return", "[", 
+       RowBox[{
+        RowBox[{"RawMemoryRead", "[", "surface", "]"}], "[", 
+        RowBox[{"[", "10", "]"}], "]"}], "]"}], ",", 
+      "\[IndentingNewLine]", "\"\<map\>\"", ",", 
+      RowBox[{"Return", "[", 
+       RowBox[{
+        RowBox[{"RawMemoryRead", "[", "surface", "]"}], "[", 
+        RowBox[{"[", "11", "]"}], "]"}], "]"}], ",", 
+      "\[IndentingNewLine]", "\"\<refcount\>\"", ",", 
+      RowBox[{"Return", "[", 
+       RowBox[{
+        RowBox[{"RawMemoryRead", "[", "surface", "]"}], "[", 
+        RowBox[{"[", "12", "]"}], "]"}], "]"}], ",", "\[IndentingNewLine]", 
+      "_", ",", "\[IndentingNewLine]", 
+      RowBox[{"Abort", "[", "]"}]}], "\[IndentingNewLine]", "]"}]}], 
+   "\[IndentingNewLine]", "]"}]}]], "Input",
+ CellChangeTimes->{{3.9838614172970695`*^9, 3.9838615175117817`*^9}, {
+  3.9838615653652*^9, 3.9838617518980865`*^9}, {3.9838618174412937`*^9, 
+  3.983861818106392*^9}, {3.983861860171816*^9, 3.983861992801071*^9}, {
+  3.983862071138693*^9, 3.9838620823754787`*^9}, {3.9839032111379128`*^9, 
+  3.983903213002514*^9}},
+ CellLabel->
+  "In[1372]:=",ExpressionUUID->"50b9c9a4-d7c0-6e4a-ab28-02175ba37e34"]
+}, Open  ]]
+},
+WindowSize->{1012.5, 531.75},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"14.2 for Microsoft Windows (64-bit) (March 14, 2025)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"af5ee2a8-f5de-8242-8e51-e61b4306601f"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 198, 5, 28, "Input",ExpressionUUID->"4881cf8f-d204-f344-b172-070b00f91939"],
+Cell[CellGroupData[{
+Cell[777, 29, 151, 3, 67, "Chapter",ExpressionUUID->"0d5e7646-bf0c-ac49-b49e-40222091d2a0"],
+Cell[931, 34, 5115, 123, 599, "Input",ExpressionUUID->"eeb536fb-6749-9e4d-be96-bb84fad3bd3d"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6083, 162, 150, 3, 67, "Chapter",ExpressionUUID->"217e8035-bf2a-e64a-9c4d-5a1dbf0f9aff"],
+Cell[6236, 167, 6519, 149, 941, "Input",ExpressionUUID->"34c779d7-e08a-8f4c-8ab8-10a579bdd408"],
+Cell[12758, 318, 4046, 92, 541, "Input",ExpressionUUID->"0688c369-214e-034e-803a-3f440da7cc35"],
+Cell[16807, 412, 205, 4, 28, "Input",ExpressionUUID->"8e2a6534-d2f3-7248-a005-79009cb8741e"],
+Cell[17015, 418, 1640, 36, 275, "Input",ExpressionUUID->"1127e23d-2695-8c46-aa8c-e2d47912fa60"],
+Cell[18658, 456, 3395, 77, 351, "Input",ExpressionUUID->"50b9c9a4-d7c0-6e4a-ab28-02175ba37e34"]
+}, Open  ]]
+}
+]
+*)
+
